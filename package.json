@@ -10,6 +10,16 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^4.14.2"
+    "astro": "^4.14.2",
+    "prettier": "^3.3.3",
+    "prettier-plugin-astro": "^0.14.1",
+    "prettier-plugin-tailwindcss": "^0.6.6"
+  },
+  "module": "index.ts",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
   }
 }
