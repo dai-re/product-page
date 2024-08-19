@@ -1,0 +1,24 @@
+---
+import NavBar from '@components/NavBar.astro';
+import { ViewTransitions } from 'astro:transitions';
+
+const { isProduct, icon, productPage } = Astro.props;
+const props = Astro.props;
+---
+
+<html lang='en'>
+  <head>
+    <meta charset='utf-8' />
+    <meta name='viewport' content='width=device-width' />
+    <meta name='generator' content={Astro.generator} />
+    <title>{isProduct ? 'Product Page' : 'About Product'}</title>
+    <ViewTransitions />
+  </head>
+  <body class='flex min-h-screen w-screen flex-col justify-between bg-white'>
+    <NavBar isProduct={isProduct} icon={icon} productPage={productPage} />
+    <main {...props}>
+      <slot />
+    </main>
+    <footer class='py-4 text-center text-xs text-white'>&copy; 2024</footer>
+  </body>
+</html>

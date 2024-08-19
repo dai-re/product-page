@@ -1,0 +1,95 @@
+---
+import Layout from '@layouts/Layout.astro';
+import { Image } from 'astro:assets';
+
+const api = 'https://dummyjson.com/products/1';
+
+const data = await fetch(api).then(res => res.json());
+
+const allComment = data.reviews;
+
+const productPage = true;
+const isProduct = false;
+---
+
+<Layout isProduct={isProduct} productPage={productPage} class='w-full grow p-4'>
+  <div class='mx-auto grid h-full w-full grow gap-4 rounded-xl p-4 md:w-[80%] md:grid-cols-2'>
+    <div class='flex justify-center'>
+      <div class="">
+        <Image src=`${data.images}` alt={data.title} width={200} height={data.images} transition:name='image' />
+      </div>
+    </div>
+    <div class='prose'>
+      <h2>{data.title} <span class='text-sm' transition:name='title'>&star; {data.rating}</span></h2>
+      <span class='flex items-center gap-2 font-bold text-gray-900'
+        >${data.price} <sub class='-mt-1 text-orange-600'>${data.discountPercentage}%</sub></span
+      >
+      <details class='mt-2'>
+        <summary>Description</summary>
+        <p class='bg-gray-50 p-2 text-sm text-gray-900'>{data.description}</p>
+      </details>
+      <details>
+        <summary>Details</summary>
+        <table>
+          <tr>
+            <td>Brand</td>
+            <td>{data.brand}</td>
+          </tr>
+          <tr>
+            <td>Sku</td>
+            <td>{data.sku}</td>
+          </tr>
+          <tr>
+            <td>Weight</td>
+            <td>{data.weight}</td>
+          </tr>
+          <tr>
+            <td>Dimensions</td>
+            <td
+              >w - {data.dimensions.width} h - {data.dimensions.height} d - {data.dimensions.length} d - {
+                data.dimensions.depth
+              }</td
+            >
+          </tr>
+          <tr>
+            <td>Warranty</td>
+            <td>{data.warrantyInformation}</td>
+          </tr>
+          <tr>
+            <td>Shipping</td>
+            <td>{data.shippingInformation}</td>
+          </tr>
+          <tr>
+            <td>availability</td>
+            <td>{data.availabilityStatus}</td>
+          </tr>
+        </table>
+      </details>
+      <h3>Reviews</h3>
+      <div class='comments flex flex-col gap-4'>
+        {
+          allComment.map(comment => (
+            <div class='rounded-sm bg-gray-50 p-2'>
+              <div class='flex items-center gap-2'>
+                <span class='font-bold'>{comment.reviewerName}</span>
+                <span class='text-orange-600'>{ '☆'.repeat(comment.rating) }</span>
+              </div>
+              <sub>{comment.date}</sub>
+              <p class='text-sm'>
+                {comment.comment}
+                <br />
+                <sub>{comment.reviewerEmail}</sub>
+              </p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  details {
+    @apply cursor-pointer;
+  }
+</style>

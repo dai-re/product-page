@@ -1,16 +1,22 @@
 ---
-
+import Layout from '@layouts/Layout.astro';
+import { Image } from 'astro:assets';
+const api = 'https://dummyjson.com/products/1';
+const data = await fetch(api).then(res => res.json());
+const isProduct = true;
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout isProduct={isProduct} class='p-4'>
+  <div class='mx-auto w-72'>
+    <Image
+      src=`${data.images}`
+      alt={data.title}
+      width={data.images}
+      height={data.images}
+      quality={'low'}
+      format={'avif'}
+      transition:name='image'
+    />
+  </div>
+  <h2 class='-mt-7 text-center text-2xl font-bold' transition:name='title'>{data.title}</h2>
+</Layout>
